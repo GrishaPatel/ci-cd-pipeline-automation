@@ -1,0 +1,7 @@
+services:
+  flask-app:
+    build: .
+    container_name: ci_cd_flask_app
+    ports:
+      - "5000:5000"
+
