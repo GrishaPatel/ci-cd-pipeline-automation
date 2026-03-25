@@ -1,7 +1,7 @@
-# CI/CD Pipeline Automation using Github actions
+# CI/CD Pipeline Automation using GitHub Actions
 
 ## Overview
-This project automates the build, testing, containerization, and deployment workflow of a Flask application using GitHub Actions and Docker.
+This project automates the build, test, and deployment process of a Flask application using GitHub Actions and Docker.
 
 ## Features
 - Automatic workflow on every push
@@ -9,4 +9,3 @@ This project automates the build, testing, containerization, and deployment work
 - Docker image build and push
 - Deployment automation
 - Reproducible environment using Docker
-

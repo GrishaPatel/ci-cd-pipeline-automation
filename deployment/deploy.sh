@@ -13,4 +13,3 @@ docker run -d \
   patelgrisha/ci-cd-pipeline:latest
 
 echo "Deployment completed successfully!"
-

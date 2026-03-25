@@ -10,54 +10,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      # 2️⃣ Set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # 3️⃣ Install dependencies locally
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r app/requirements.txt
+          cd app
+          pip install -r requirements.txt
 
-      # 4️⃣ Run local tests
-      - name: Run local tests
+      - name: Run tests
         run: |
-          python -m pytest app/test_app.py
+          cd app
+          pytest
 
-      # 5️⃣ Log in to Docker Hub using Personal Access Token
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: patelgrisha           # Hardcoded Docker Hub username
-          password: ${{ secrets.DOCKER_PASSWORD }}   # Personal Access Token
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 6️⃣ Optional: Check connectivity to Docker Hub
-      - name: Check Docker Hub connectivity
-        run: |
-          curl -v https://registry-1.docker.io/v2/
-
-      # 7️⃣ Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t patelgrisha/ci-cd-pipeline:latest .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/ci-cd-pipeline:latest .
 
-      # 8️⃣ Test Docker container
-      - name: Test Docker container
-        run: |
-          docker run --name test-container -d patelgrisha/ci-cd-pipeline:latest
-          docker exec test-container python /app/test_app.py
-          docker stop test-container
-          docker rm test-container
-
-      # 9️⃣ Push Docker image only if tests pass
       - name: Push Docker image
         run: |
-          docker push patelgrisha/ci-cd-pipeline:latest
-          
+          docker push ${{ secrets.DOCKER_USERNAME }}/ci-cd-pipeline:latest
